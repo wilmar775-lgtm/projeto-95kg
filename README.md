@@ -1,32 +1,38 @@
-# Projeto 95 KG — PWA Android
+# Projeto 95 KG — V2 (prévia funcional)
 
-Aplicação de treino 100% estática, sem dependências nem servidor de dados.
+Esta atualização mantém a aplicação original de treinos e acrescenta perfil, questionário opcional de saúde e biblioteca de 30 exercícios com alternativas.
 
-## Funcionalidades
-- Cinco treinos de musculação com séries, repetições, descansos e cardio.
-- Registo de carga/repetições e séries concluídas (rascunho automático).
-- Histórico de treinos concluídos.
-- Temporizador de descanso com aviso vibratório (quando suportado).
-- Registo e gráfico de peso, com meta de 95 kg.
-- Armazenamento local, exportação/importação de backup JSON.
-- Funcionamento offline após a primeira visita com ligação à internet (service worker).
+## Publicar sem mexer na produção
 
-## Instalar no Android com GitHub Pages
-1. Crie um repositório GitHub (pode ser público, já que contém apenas o código e **nenhum dado pessoal**).
-2. Envie para a raiz do repositório os ficheiros contidos nesta pasta.
-3. Aceda a **Settings > Pages > Build and deployment** e configure **Deploy from a branch**, branch **main**, pasta **/(root)**; guarde.
-4. Abra no Chrome Android o endereço HTTPS apresentado em GitHub Pages (normalmente `https://UTILIZADOR.github.io/REPOSITORIO/`).
-5. No menu ⋮ do Chrome, escolha **Instalar aplicação** ou **Adicionar ao ecrã principal**.
-6. Depois da primeira abertura online, a app pode ser aberta offline.
+1. Confirma que estás na branch `develop-v2` do repositório `projeto-95kg`.
+2. Extrai este ZIP. **Envia todos os ficheiros que aparecem na raiz, não o próprio ZIP.**
+3. GitHub → Add file → Upload files → arrasta os ficheiros extraídos → Commit changes na `develop-v2`.
+4. Não alteres a branch `main` nem o workflow `deploy.yml`.
+5. Para testar sem afetar a app publicada, podes usar um ambiente local (`python -m http.server 8000`) ou criar um site de ensaio separado. GitHub Pages atual está ligado a `main`, não à `develop-v2`.
+6. Após testes e quando decidires publicar, cria um Pull Request `develop-v2` → `main`; a publicação atualiza automaticamente.
 
-**Nota:** abrir o ficheiro `index.html` diretamente no telemóvel não ativa a instalação PWA nem o service worker. Precisa de ser servido por HTTPS ou localhost. A publicação no GitHub Pages depende das definições e elegibilidade do repositório.
+## O que funciona nesta versão
 
-## Segurança e limites
-- Os dados guardam-se só no navegador/dispositivo, não no GitHub.
-- Limpar dados do site ou desinstalar poderá eliminar o histórico. Use **Opções > Exportar cópia JSON** periodicamente.
-- O histórico de peso começa com 105 kg como valor inicial fornecido pelo utilizador; pode atualizá-lo.
-- O plano é uma base de treino, não aconselhamento médico individualizado.
-- Não incorpora sincronização entre dispositivos nem notificações em segundo plano.
+- 5 treinos da V1, histórico, pesos, temporizador, gráfico e backup V1 preservados.
+- Perfil opcional (idade, peso, altura, experiência, disponibilidade, objetivos, avatar, rotina).
+- Questionário opcional de saúde com medicamentos e hormonas, alertas prudentes (não diagnóstico).
+- 30 exercícios com **esquemas visuais simbólicos**, orientações gerais e pelo menos duas alternativas.
+- Novos dados do perfil salvos separadamente na chave `projeto95_profile_v2`; dados V1 continuam em `projeto95_state_v1`.
+- Exportação e eliminação do perfil V2.
+- Offline através do `sw.js` atualizado.
 
-## Testar localmente num computador
-Execute `python -m http.server 8000` nesta pasta e abra `http://localhost:8000` (o suporte a PWA exige origem segura; localhost é considerado seguro).
+## Limitações explícitas
+
+Esta é uma **primeira entrega V2 funcional**, não um sistema médico, não um treinador autónomo e não possui ainda imagens anatómicas específicas validadas, fotografias ou vídeos. Os esquemas são simbólicos. Ainda não modifica automaticamente o plano com base no questionário. Não possui integração com smartwatches, localização, ginásios, login ou servidor. A validação de entrada e os avisos não substituem orientação de profissionais.
+
+## Testar
+
+- Abrir `Perfil`, guardar dados, fechar/reabrir o site, confirmar persistência.
+- Alterar resposta sobre hormonas e verificar a pergunta complementar.
+- Abrir `Exercícios`, consultar alternativas e regressar.
+- No separador `Treinos`, consultar guia e regressar ao treino.
+- Registar série e peso; garantir que os dados V1 continuam presentes.
+- Ativar modo avião após uma primeira abertura online e confirmar abertura offline.
+- Testar exportação V1 e V2 separadamente.
+
+**Nota de segurança:** questionários de saúde são dados sensíveis mesmo quando guardados localmente; cópias JSON não são encriptadas. Evita partilhá-las inadvertidamente. Para publicação comercial, é necessário revisão médica/desportiva e de privacidade antes da disponibilização pública.
